@@ -67,7 +67,7 @@ func main() {
 	if (len(os.Args) != 3 && len(os.Args) != 5) || os.Args[1] == "-h" {
 		fmt.Printf(`usage: %s OLD_TIME NEW_TIME [OLD2 NEW2] < OLD_SRT > NEW_SRT	
 
-Adjust subtitle times.
+Fix subtitle timing in a .srt file.
 
 Example:
 	%s 00:02:35,300 00:3:36,700 < old.srt > new.srt
