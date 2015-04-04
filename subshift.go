@@ -56,7 +56,7 @@ func transln(s string) string {
 	b, berr := parsetm(ab[1])
 	if aerr != nil || berr != nil {
 		// normal subtitle that happend to contain " --> ", presumably
-		
+
 		// log.Fatal("could not offset", a, aerr, b, berr)
 		return s
 	}
@@ -83,7 +83,8 @@ Example:
 		}
 		scale = float64(nt-newzero) / float64(ot-oldzero)
 	}
-	for f := bufio.NewScanner(os.Stdin); f.Scan();  {
+	f := bufio.NewScanner(os.Stdin)
+	for f.Scan() {
 		fmt.Println(transln(f.Text()))
 	}
 }
