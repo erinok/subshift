@@ -21,7 +21,11 @@ var oldzero, newzero tm // translation
 var scale = 1.0
 
 func transtm(t tm) tm {
-	return newzero + tm(float64(t-oldzero)*scale)
+	t = newzero + tm(float64(t-oldzero)*scale)
+	if t < 0 {
+		return 0
+	}
+	return t
 }
 
 func parsetm(ts string) (tm, error) {
