@@ -33,8 +33,7 @@ func parsetm(ts string) (tm, error) {
 func mustparsetm(t string) tm {
 	d, e := parsetm(t)
 	if e != nil {
-		fmt.Println("bad time:", t, e)
-		os.Exit(1)
+		fatal("could not parse time:", t, e)
 	}
 	return d
 }
@@ -65,7 +64,7 @@ func transln(s string) string {
 
 func main() {
 	if (len(os.Args) != 3 && len(os.Args) != 5) || os.Args[1] == "-h" {
-		fmt.Printf(`usage: %s OLD_TIME NEW_TIME [OLD2 NEW2] < OLD_SRT > NEW_SRT	
+		fmt.Fprintf(os.Stderr, `usage: %s OLD_TIME NEW_TIME [OLD2 NEW2] < OLD_SRT > NEW_SRT	
 
 Fix subtitle timing in a .srt file.
 
@@ -78,8 +77,7 @@ Example:
 	if len(os.Args) == 5 {
 		ot, nt := mustparsetm(os.Args[3]), mustparsetm(os.Args[4])
 		if ot == oldzero {
-			fmt.Println("error: same time specificed twice", os.Args[2])
-			os.Exit(1)
+			fatal("error: same time specificed twice", os.Args[2])
 		}
 		scale = float64(nt-newzero) / float64(ot-oldzero)
 	}
@@ -87,4 +85,9 @@ Example:
 	for f.Scan() {
 		fmt.Println(transln(f.Text()))
 	}
+}
+
+func fatal(m ...interface{}) {
+	fmt.Fprintln(os.Stderr, m...)
+	os.Exit(1)
 }
