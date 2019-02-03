@@ -31,6 +31,10 @@ func transtm(t tm) tm {
 func parsetm(ts string) (tm, error) {
 	var h, m, s, ms tm
 	_, err := fmt.Sscanf(ts, "%d:%d:%d,%d", &h, &m, &s, &ms)
+	if err != nil {
+		// try period separator
+		_, err = fmt.Sscanf(ts, "%d:%d:%d.%d", &h, &m, &s, &ms)
+	}
 	return h*hour + m*minute + s*second + ms*millisecond, err
 }
 
